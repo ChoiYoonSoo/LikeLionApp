@@ -3,23 +3,37 @@ package com.example.composeproject.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,6 +60,9 @@ import com.example.composeproject.viewmodel.MainScreenViewModel
 // Composable -> 컴포저블을 시작한다 이 함수는 첫글자 대문자로 시작
 // 폰트 사이즈 * 1.5(150%) / 폰트 사이즈 * 0.006 (0.6%)
 // 가로는 화면 사이즈 최대로 하고 패딩 추가, 세로는 직접 하드코딩
+// modifier는 인자로 받아서 공통으로 수정할 수 있다. -> 빼라.
+// interactioinsource는 포커스에 따른 효과를 줄 수 있다.
+//  = remember 변수는 .value로 접근
 
 @Composable
 fun MainScreen() {
@@ -183,7 +201,7 @@ fun CustomItem(person: Person) {
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
             text = person.id.toString(),
@@ -233,6 +251,81 @@ fun ButtonTest() {
     }
 }
 
+@Composable
+fun test() {
+    Row {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .wrapContentSize(),
+
+            ) {
+            Text(text = "버튼1", fontSize = 10.sp)
+        }
+        Button(onClick = {}) {
+            Text(text = "버튼2")
+        }
+        Button(onClick = {}) {
+            Text(text = "버튼3")
+        }
+        Button(onClick = { }) {
+            Text(text = "버튼4")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TestTextField() {
+    var text by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .padding(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .border(1.dp, Color.Blue, RoundedCornerShape(4.dp))
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BasicTextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                },
+                singleLine = true,
+                textStyle = TextStyle(fontSize = 16.sp),
+
+                // PlaceHolder 설정
+                decorationBox = { innerTextField ->
+                    Text(
+                        text = if (text.equals("")) "입력하세요" else "",
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                    innerTextField()
+                }
+            )
+            if (text.isNotEmpty()) {
+                Icon(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clickable {
+                            text = ""
+                        },
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Clear",
+                )
+            }
+        }
+    }
+
+}
+
 // showSystemUi = true - 핸드폰 모양으로 Preview 가능
 // showBackground = true - 배경 보이기
 @Preview(showSystemUi = true)
@@ -244,5 +337,9 @@ fun MainScreenPreview() {
 //            .padding(12.dp)
 //    ) {
 //    }
-    LazyColumnScreen(MainScreenViewModel())
+//    LazyColumnScreen(MainScreenViewModel())
+    TestTextField()
+
 }
+
+// 다음주 코일 이미지 주소값 받아오기
