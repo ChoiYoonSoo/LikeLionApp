@@ -1,19 +1,16 @@
 package com.example.composeproject.screen
 
+import android.graphics.drawable.Icon
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.InteractionSource
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,15 +24,12 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,17 +38,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
+import coil.compose.rememberImagePainter
 import com.example.composeproject.R
 import com.example.composeproject.ui.theme.Pink40
 import com.example.composeproject.viewmodel.MainScreenViewModel
+import com.example.composeproject.viewmodel.SignUpViewModel
 
 // 로직을 구현하는 함수는 첫글자 소문자
 // Composable -> 컴포저블을 시작한다 이 함수는 첫글자 대문자로 시작
@@ -127,8 +129,7 @@ fun ImageTask() {
         }
 
         Column(
-            modifier = Modifier
-                .padding(start = 20.dp, top = 10.dp)
+            modifier = Modifier.padding(start = 20.dp, top = 10.dp)
         ) {
             // 상단 텍스트
             Text(
@@ -162,14 +163,12 @@ fun BoxScreen() {
                 .size(30.dp)
                 .background(Color.Transparent)
                 .border(1.dp, Color.Blue, CircleShape)
-        ) {
-        }
+        ) {}
         Box(
             modifier = Modifier
                 .size(300.dp)
                 .background(Color.Blue)
-        ) {
-        }
+        ) {}
     }
 }
 
@@ -183,9 +182,7 @@ fun LazyColumnScreen(viewModel: MainScreenViewModel) {
 }
 
 data class Person(
-    val id: Int,
-    val name: String,
-    val age: Int
+    val id: Int, val name: String, val age: Int
 )
 
 // remember = 값 저장
@@ -210,10 +207,7 @@ fun CustomItem(person: Person) {
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = person.name,
-            fontSize = 40.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Light
+            text = person.name, fontSize = 40.sp, color = Color.Black, fontWeight = FontWeight.Light
         )
         Text(
             text = person.age.toString(),
@@ -225,8 +219,7 @@ fun CustomItem(person: Person) {
         Button(
             onClick = {
                 isSelect = !isSelect
-            },
-            colors = ButtonDefaults.buttonColors(
+            }, colors = ButtonDefaults.buttonColors(
                 containerColor = if (isSelect) Color.Red else Color.Black,
                 contentColor = Color.White
             )
@@ -256,8 +249,7 @@ fun test() {
     Row {
         Button(
             onClick = {},
-            modifier = Modifier
-                .wrapContentSize(),
+            modifier = Modifier.wrapContentSize(),
 
             ) {
             Text(text = "버튼1", fontSize = 10.sp)
@@ -280,8 +272,7 @@ fun TestTextField() {
     var text by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
-            .padding(12.dp)
+        modifier = Modifier.padding(12.dp)
     ) {
         Row(
             modifier = Modifier
@@ -292,13 +283,9 @@ fun TestTextField() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            BasicTextField(
-                value = text,
-                onValueChange = {
-                    text = it
-                },
-                singleLine = true,
-                textStyle = TextStyle(fontSize = 16.sp),
+            BasicTextField(value = text, onValueChange = {
+                text = it
+            }, singleLine = true, textStyle = TextStyle(fontSize = 16.sp),
 
                 // PlaceHolder 설정
                 decorationBox = { innerTextField ->
@@ -308,8 +295,7 @@ fun TestTextField() {
                         fontSize = 16.sp
                     )
                     innerTextField()
-                }
-            )
+                })
             if (text.isNotEmpty()) {
                 Icon(
                     modifier = Modifier
@@ -326,6 +312,202 @@ fun TestTextField() {
 
 }
 
+@Composable
+fun ExampleImage() {
+//    Image(
+//        painter = painterResource(id = R.drawable.sisley_alfred),
+//        contentDescription = "exampleImage",
+//        contentScale = ContentScale.Crop,
+//    )
+
+    Image(
+        painter = rememberImagePainter(data = "https://i.pravatar.cc/300"),
+        contentDescription = "Example Image",
+    )
+
+    // AsyncImage -> coil 라이브러리 사용
+}
+
+// 회원가입 화면
+// 아이디, 비번, 회원가입 버튼
+// placeholder 포커스에 따라 띄워지기
+// border = 8.dp, height = 50.dp, 양 옆 padding = 12.dp
+// font weight = normal, font size = 18.sp, 글씨 항상 중앙 정렬
+// 아이디는 이메일 형식으로 받음 @ 들어왔을 때 테두리색은 주황색으로 바뀌게
+// 비밀번호 부분은 숨기고 보여주게 하는 기능 추가
+// 비밀번호 부분에서 텍스트 수 측정하는거 만들어서 10자리 이상이면 주황색
+// 버튼 아이디, 비밀번호 부분에서 둘 다 주황색으로 바뀌었을 때 활성화 그 전에는 비활성화
+// 아이디 부분에서 맨 앞글자가 대문자면 에러 표시 -> border 빨간색으로 표시 보더 밑에 작게 에러메시지 출력 : 맨 앞글자 대문자는 사용금지 (글자색상 빨간색)
+// 컴포넌트 사이 18.dp 간격
+@Composable
+fun SignUpScreen(viewModel: SignUpViewModel) {
+
+    // 텍스트필드 포커스 요청
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(top = 20.dp)
+            .padding(12.dp)
+    ) {
+        // SignUp Title
+        Text(
+            text = "회원가입",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        // Email TextField
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .border(
+                    8.dp,
+                    if (viewModel.email.contains("@") && viewModel.isEmailValidate)
+                        Color(0xFFFFA500)
+                    else Color.Black
+                )
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BasicTextField(
+                value = viewModel.email,
+                onValueChange = {
+                    viewModel.email = it
+                    viewModel.isEmailSuccess = viewModel.email.contains("@")
+                    Log.d("SignUpScreen", "email : ${viewModel.email}")
+                },
+
+                // Focus 이벤트
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        viewModel.isEmailFocused = focusState.isFocused
+                    },
+
+                textStyle = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                singleLine = true,
+
+                // PlaceHolder 설정
+                decorationBox = { innerTextField ->
+                    Text(
+                        text = if (viewModel.email.isEmpty() && !viewModel.isEmailFocused) "이메일 입력" else "",
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                    innerTextField()
+                })
+
+        }
+
+        // Email error message
+        if (viewModel.email.isNotEmpty() && viewModel.email[0].isUpperCase()) {
+            viewModel.isEmailValidate = false
+            Text(
+                text = "맨 앞글자 대문자는 사용금지",
+                color = Color.Red,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Light
+            )
+        } else {
+            viewModel.isEmailValidate = true
+        }
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        // Password TextField
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .border(
+                    8.dp,
+                    if (viewModel.password.length >= 10) {
+                        Color(0xFFFFA500)
+                    } else Color.Black
+                )
+                .padding(horizontal = 8.dp)
+                .padding(end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            BasicTextField(
+                value = viewModel.password,
+                onValueChange = {
+                    viewModel.password = it
+                    viewModel.isPasswordSuccess = viewModel.password.length >= 10
+                    Log.d("SignUpScreen", "password : ${viewModel.password}")
+                },
+                visualTransformation = if (viewModel.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        viewModel.isPasswordFocused = focusState.isFocused
+                    },
+                // PlaceHolder 설정
+                decorationBox = { innerTextField ->
+                    Text(
+                        text = if (viewModel.password.isEmpty() && !viewModel.isPasswordFocused) "비밀번호 입력" else "",
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                    innerTextField()
+                })
+            Icon(
+                painter = painterResource(id = R.drawable.eye),
+                contentDescription = "passwordVisibleImage",
+                modifier = Modifier
+                    .size(22.dp)
+                    .clickable {
+                        viewModel.isPasswordVisible = !viewModel.isPasswordVisible
+                    }
+
+            )
+
+        }
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        // SignUp Button
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                Log.d("SignUpScreen", "회원가입 버튼 클릭")
+            },
+            enabled = viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = if (viewModel.isEmailSuccess && viewModel.isPasswordSuccess) Color(
+                    0xFFFFA500
+                ) else Color.Gray,
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = "회원가입")
+        }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+    }
+
+}
+
+
 // showSystemUi = true - 핸드폰 모양으로 Preview 가능
 // showBackground = true - 배경 보이기
 @Preview(showSystemUi = true)
@@ -335,11 +517,10 @@ fun MainScreenPreview() {
 //        modifier = Modifier
 //            .fillMaxSize()
 //            .padding(12.dp)
-//    ) {
+//    )
 //    }
 //    LazyColumnScreen(MainScreenViewModel())
-    TestTextField()
-
+    SignUpScreen(viewModel = SignUpViewModel())
 }
 
 // 다음주 코일 이미지 주소값 받아오기
