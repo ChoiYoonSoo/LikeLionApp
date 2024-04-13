@@ -360,7 +360,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
-
         Spacer(modifier = Modifier.height(18.dp))
 
         // Email TextField
@@ -383,13 +382,14 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 onValueChange = {
                     viewModel.email = it
                     viewModel.isEmailSuccess = viewModel.email.contains("@")
-                    Log.d("SignUpScreen", "email : ${viewModel.email}")
+                    Log.d("이메일 입력", viewModel.email)
                 },
 
                 // Focus 이벤트
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState ->
+                        // 이메일 텍스트 필드에 대한 포커스 감지
                         viewModel.isEmailFocused = focusState.isFocused
                     },
 
@@ -408,7 +408,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                     )
                     innerTextField()
                 })
-
         }
 
         // Email error message
@@ -423,7 +422,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
         } else {
             viewModel.isEmailValidate = true
         }
-
         Spacer(modifier = Modifier.height(18.dp))
 
         // Password TextField
@@ -447,8 +445,10 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 onValueChange = {
                     viewModel.password = it
                     viewModel.isPasswordSuccess = viewModel.password.length >= 10
-                    Log.d("SignUpScreen", "password : ${viewModel.password}")
+                    Log.d("비밀번호 입력", viewModel.password)
                 },
+
+                // 비밀번호 가시성 설정
                 visualTransformation = if (viewModel.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 singleLine = true,
                 textStyle = TextStyle(
@@ -458,8 +458,10 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState ->
+                        // 비밀번호 텍스트 필드에 대한 포커스 감지
                         viewModel.isPasswordFocused = focusState.isFocused
                     },
+
                 // PlaceHolder 설정
                 decorationBox = { innerTextField ->
                     Text(
@@ -469,6 +471,8 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                     )
                     innerTextField()
                 })
+
+            // 비밀번호 가시성 아이콘
             Icon(
                 painter = painterResource(id = R.drawable.eye),
                 contentDescription = "passwordVisibleImage",
@@ -477,18 +481,15 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                     .clickable {
                         viewModel.isPasswordVisible = !viewModel.isPasswordVisible
                     }
-
             )
-
         }
-
         Spacer(modifier = Modifier.height(18.dp))
 
         // SignUp Button
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                Log.d("SignUpScreen", "회원가입 버튼 클릭")
+                Log.d("회원가입 버튼", "클릭")
             },
             enabled = viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate,
             colors = ButtonDefaults.buttonColors(
@@ -500,13 +501,13 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
         ) {
             Text(text = "회원가입")
         }
+
+        // 포커스 요청
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
     }
-
 }
-
 
 // showSystemUi = true - 핸드폰 모양으로 Preview 가능
 // showBackground = true - 배경 보이기
