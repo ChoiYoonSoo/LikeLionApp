@@ -369,19 +369,18 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 .height(50.dp)
                 .border(
                     8.dp,
-                    if (viewModel.email.contains("@") && viewModel.isEmailValidate)
+                    if (viewModel.isEmailSuccess && viewModel.isEmailValidate)
                         Color(0xFFFFA500)
                     else Color.Black
                 )
                 .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             BasicTextField(
                 value = viewModel.email,
                 onValueChange = {
                     viewModel.email = it
-                    viewModel.isEmailSuccess = viewModel.email.contains("@")
+                    viewModel.isEmailValidate = viewModel.email.contains("@")
                     Log.d("이메일 입력", viewModel.email)
                 },
 
@@ -412,7 +411,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
 
         // Email error message
         if (viewModel.email.isNotEmpty() && viewModel.email[0].isUpperCase()) {
-            viewModel.isEmailValidate = false
+            viewModel.isEmailSuccess = false
             Text(
                 text = "맨 앞글자 대문자는 사용금지",
                 color = Color.Red,
@@ -420,7 +419,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 fontWeight = FontWeight.Light
             )
         } else {
-            viewModel.isEmailValidate = true
+            viewModel.isEmailSuccess = true
         }
         Spacer(modifier = Modifier.height(18.dp))
 
@@ -493,7 +492,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             },
             enabled = viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate,
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (viewModel.isEmailSuccess && viewModel.isPasswordSuccess) Color(
+                containerColor = if (viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate) Color(
                     0xFFFFA500
                 ) else Color.Gray,
                 contentColor = Color.White
@@ -502,10 +501,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             Text(text = "회원가입")
         }
 
-        // 포커스 요청
-        LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
-        }
     }
 }
 
