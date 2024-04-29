@@ -349,156 +349,193 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
 
     Column(
         modifier = Modifier
-            .padding(top = 20.dp)
-            .padding(12.dp)
+            .padding(12.dp,20.dp,12.dp,0.dp)
     ) {
-        // SignUp Title
-        Text(
-            text = "회원가입",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(18.dp))
+//        // SignUp Title
+//        Text(
+//            text = "회원가입",
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Bold,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//        Spacer(modifier = Modifier.height(18.dp))
+//
+//        // Email TextField
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp)
+//                .border(
+//                    1.dp,
+//                    if (viewModel.isEmailSuccess && viewModel.isEmailValidate)
+//                        Color(0xFFFFA500)
+//                    else Color.Black
+//                )
+//                .padding(horizontal = 8.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//        ) {
+//            BasicTextField(
+//                value = viewModel.email,
+//                onValueChange = {
+//                    viewModel.email = it
+//                    viewModel.isEmailValidate = viewModel.email.contains("@")
+//                    Log.d("이메일 입력", viewModel.email)
+//                },
+//
+//                // Focus 이벤트
+//                modifier = Modifier
+//                    .focusRequester(focusRequester)
+//                    .onFocusChanged { focusState ->
+//                        // 이메일 텍스트 필드에 대한 포커스 감지
+//                        viewModel.isEmailFocused = focusState.isFocused
+//                    },
+//
+//                textStyle = TextStyle(
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Normal
+//                ),
+//                singleLine = true,
+//
+//                // PlaceHolder 설정
+//                decorationBox = { innerTextField ->
+//                    Text(
+//                        text = if (viewModel.email.isEmpty() && !viewModel.isEmailFocused) "이메일 입력" else "",
+//                        color = Color.LightGray,
+//                        fontSize = 16.sp
+//                    )
+//                    innerTextField()
+//                })
+//        }
+//
+//        // Email error message
+//        if (viewModel.email.isNotEmpty() && viewModel.email[0].isUpperCase()) {
+//            viewModel.isEmailSuccess = false
+//            Text(
+//                text = "맨 앞글자 대문자는 사용금지",
+//                color = Color.Red,
+//                fontSize = 10.sp,
+//                fontWeight = FontWeight.Light
+//            )
+//        } else {
+//            viewModel.isEmailSuccess = true
+//        }
+//        Spacer(modifier = Modifier.height(18.dp))
+//
+//        // Password TextField
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp)
+//                .border(
+//                    1.dp,
+//                    if (viewModel.password.length >= 10) {
+//                        Color(0xFFFFA500)
+//                    } else Color.Black
+//                )
+//                .padding(horizontal = 8.dp)
+//                .clip(RoundedCornerShape(4.dp)),
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            BasicTextField(
+//                value = viewModel.password,
+//                onValueChange = {
+//                    viewModel.password = it
+//                    viewModel.isPasswordSuccess = viewModel.password.length >= 10
+//                    Log.d("비밀번호 입력", viewModel.password)
+//                },
+//
+//                // 비밀번호 가시성 설정
+//                visualTransformation = if (viewModel.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+//                singleLine = true,
+//                textStyle = TextStyle(
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Normal
+//                ),
+//                modifier = Modifier
+//                    .focusRequester(focusRequester)
+//                    .onFocusChanged { focusState ->
+//                        // 비밀번호 텍스트 필드에 대한 포커스 감지
+//                        viewModel.isPasswordFocused = focusState.isFocused
+//                    },
+//
+//                // PlaceHolder 설정
+//                decorationBox = { innerTextField ->
+//                    Text(
+//                        text = if (viewModel.password.isEmpty() && !viewModel.isPasswordFocused) "비밀번호 입력" else "",
+//                        color = Color.LightGray,
+//                        fontSize = 16.sp
+//                    )
+//                    innerTextField()
+//                })
+//
+//            // 비밀번호 가시성 아이콘
+//            Icon(
+//                painter = painterResource(id = R.drawable.eye),
+//                contentDescription = "passwordVisibleImage",
+//                modifier = Modifier
+//                    .size(22.dp)
+//                    .clickable {
+//                        viewModel.isPasswordVisible = !viewModel.isPasswordVisible
+//                    }
+//            )
+//        }
+//        Spacer(modifier = Modifier.height(18.dp))
+//
+//        // SignUp Button
+//        Button(
+//            modifier = Modifier.fillMaxWidth(),
+//            onClick = {
+//                Log.d("회원가입 버튼", "클릭")
+//            },
+//            enabled = viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate,
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = if (viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate) Color(
+//                    0xFFFFA500
+//                ) else Color.Gray,
+//                contentColor = Color.White
+//            )
+//        ) {
+//            Text(text = "회원가입")
+//        }
+//
+//        Spacer(modifier = Modifier.height(18.dp))
 
-        // Email TextField
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .border(
-                    8.dp,
-                    if (viewModel.isEmailSuccess && viewModel.isEmailValidate)
-                        Color(0xFFFFA500)
-                    else Color.Black
-                )
-                .padding(horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BasicTextField(
-                value = viewModel.email,
-                onValueChange = {
-                    viewModel.email = it
-                    viewModel.isEmailValidate = viewModel.email.contains("@")
-                    Log.d("이메일 입력", viewModel.email)
-                },
-
-                // Focus 이벤트
+        Column {
+            Row(
                 modifier = Modifier
-                    .focusRequester(focusRequester)
-                    .onFocusChanged { focusState ->
-                        // 이메일 텍스트 필드에 대한 포커스 감지
-                        viewModel.isEmailFocused = focusState.isFocused
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .border(
+                        1.dp,
+                        Color.Black
+                    )
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BasicTextField(
+                    value = viewModel.textField,
+                    onValueChange = {
+                        if(it.length <= 100) // it 값을 제어해야 함
+                            viewModel.textField = it
                     },
 
-                textStyle = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                singleLine = true,
-
-                // PlaceHolder 설정
-                decorationBox = { innerTextField ->
-                    Text(
-                        text = if (viewModel.email.isEmpty() && !viewModel.isEmailFocused) "이메일 입력" else "",
-                        color = Color.LightGray,
-                        fontSize = 16.sp
-                    )
-                    innerTextField()
-                })
-        }
-
-        // Email error message
-        if (viewModel.email.isNotEmpty() && viewModel.email[0].isUpperCase()) {
-            viewModel.isEmailSuccess = false
-            Text(
-                text = "맨 앞글자 대문자는 사용금지",
-                color = Color.Red,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light
-            )
-        } else {
-            viewModel.isEmailSuccess = true
-        }
-        Spacer(modifier = Modifier.height(18.dp))
-
-        // Password TextField
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .border(
-                    8.dp,
-                    if (viewModel.password.length >= 10) {
-                        Color(0xFFFFA500)
-                    } else Color.Black
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
                 )
-                .padding(horizontal = 8.dp)
-                .padding(end = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            BasicTextField(
-                value = viewModel.password,
-                onValueChange = {
-                    viewModel.password = it
-                    viewModel.isPasswordSuccess = viewModel.password.length >= 10
-                    Log.d("비밀번호 입력", viewModel.password)
-                },
-
-                // 비밀번호 가시성 설정
-                visualTransformation = if (viewModel.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                modifier = Modifier
-                    .focusRequester(focusRequester)
-                    .onFocusChanged { focusState ->
-                        // 비밀번호 텍스트 필드에 대한 포커스 감지
-                        viewModel.isPasswordFocused = focusState.isFocused
-                    },
-
-                // PlaceHolder 설정
-                decorationBox = { innerTextField ->
-                    Text(
-                        text = if (viewModel.password.isEmpty() && !viewModel.isPasswordFocused) "비밀번호 입력" else "",
-                        color = Color.LightGray,
-                        fontSize = 16.sp
-                    )
-                    innerTextField()
-                })
-
-            // 비밀번호 가시성 아이콘
-            Icon(
-                painter = painterResource(id = R.drawable.eye),
-                contentDescription = "passwordVisibleImage",
-                modifier = Modifier
-                    .size(22.dp)
-                    .clickable {
-                        viewModel.isPasswordVisible = !viewModel.isPasswordVisible
-                    }
-            )
+            }
         }
-        Spacer(modifier = Modifier.height(18.dp))
-
-        // SignUp Button
-        Button(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                Log.d("회원가입 버튼", "클릭")
-            },
-            enabled = viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (viewModel.isEmailSuccess && viewModel.isPasswordSuccess && viewModel.isEmailValidate) Color(
-                    0xFFFFA500
-                ) else Color.Gray,
-                contentColor = Color.White
-            )
-        ) {
-            Text(text = "회원가입")
+            horizontalArrangement = Arrangement.End
+        ){
+            // BuildeAnostateString
+            // 다음주 텍스트필드 글자 안에 넣고 줄바꿈 과제
+            Text(text = "${viewModel.textField.length} / ")
+            Text(text = "100", color = Color.Blue)
         }
 
     }
