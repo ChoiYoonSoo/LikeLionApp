@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -506,7 +508,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(50.dp)
                     .border(
                         1.dp,
                         Color.Black
@@ -514,28 +516,33 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                BasicTextField(
-                    value = viewModel.textField,
-                    onValueChange = {
-                        if(it.length <= 100) // it 값을 제어해야 함
-                            viewModel.textField = it
-                    },
+                Column {
+                    BasicTextField(
+                        value = viewModel.textField,
+                        onValueChange = {
+                            if (it.length <= 100) // it 값을 제어해야 함
+                                viewModel.textField = it
+                        },
 
-                    textStyle = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal
-                    ),
-                )
+                        textStyle = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal
+                        ),
+                        modifier = Modifier
+                            .height(20.dp)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        // BuildeAnostateString
+                        // 다음주 텍스트필드 글자 안에 넣고 줄바꿈 과제
+                        Text(text = "${viewModel.textField.length} / ")
+                        Text(text = "100", color = Color.Blue)
+                    }
+                }
             }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ){
-            // BuildeAnostateString
-            // 다음주 텍스트필드 글자 안에 넣고 줄바꿈 과제
-            Text(text = "${viewModel.textField.length} / ")
-            Text(text = "100", color = Color.Blue)
         }
 
     }
