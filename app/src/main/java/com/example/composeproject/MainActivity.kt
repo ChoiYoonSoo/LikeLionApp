@@ -4,8 +4,12 @@ import NavigationGraph
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -13,13 +17,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.composeproject.navigation.BottomNavigationBar
 import com.example.composeproject.screen.ExampleImage
-import com.example.composeproject.screen.MainScreen
-import com.example.composeproject.screen.SignUpScreen
+import com.example.composeproject.screen.LazyColumnScreen
 import com.example.composeproject.ui.theme.ComposeProjectTheme
-import com.example.composeproject.viewmodel.SignUpViewModel
+import com.example.composeproject.viewmodel.BottomNavViewModel
+import com.example.composeproject.viewmodel.MainScreenViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                   MainView()
+                    MainView()
                 }
             }
         }
@@ -45,7 +51,13 @@ fun MainView() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+            BottomNavigationBar(navController = navController, viewModel = BottomNavViewModel())
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color.Gray)
+            )
         }
     ) {
         Box(

@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.composeproject.R
 import com.example.composeproject.ui.theme.Pink40
@@ -323,7 +324,7 @@ fun ExampleImage() {
 //    )
 
     Image(
-        painter = rememberImagePainter(data = "https://i.pravatar.cc/300"),
+        painter = rememberAsyncImagePainter(model = "https://i.pravatar.cc/300"),
         contentDescription = "Example Image",
     )
 

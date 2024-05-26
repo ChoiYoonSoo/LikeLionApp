@@ -1,3 +1,4 @@
+import com.example.composeproject.R
 
 // sealed class 와 enum class의 차이
 sealed class BottomNavItem(
@@ -6,7 +7,9 @@ sealed class BottomNavItem(
     val icon: Int
 ){
     // Route는 소문자로만 작성
-    object MainScreen: BottomNavItem("main_screen","메인",android.R.drawable.btn_radio)
-    object Screen2: BottomNavItem("screen2","스크린2",android.R.drawable.btn_radio)
-    object Screen3: BottomNavItem("screen3","스크린3",android.R.drawable.btn_radio)
+    object HomeScreen: BottomNavItem("home_screen","홈", R.drawable.home)
+    object LifeScreen: BottomNavItem("life_screen","동네생활", R.drawable.note)
+    object NearScreen: BottomNavItem("near_screen","내 근처", R.drawable.gps)
+    object ChatScreen: BottomNavItem("chat_screen","채팅", R.drawable.chat)
+    object MyScreen: BottomNavItem("my_screen","나의 당근", R.drawable.human)
 }
